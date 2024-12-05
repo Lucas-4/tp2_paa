@@ -31,16 +31,22 @@ public class CliqueFinder {
 
 
     private boolean hasCliqueHeuristic(int k) {
+        // Calcular e armazenar os graus dos vértices
+        List<Integer> degrees = new ArrayList<>();
+        for (int i = 0; i < graph.getNumberOfVertices(); i++) {
+            degrees.add(graph.getDegree(i));
+        }
+
         // Filtro Inicial Rápido
         List<Integer> possibleVertices = new ArrayList<>();
         for (int i = 0; i < graph.getNumberOfVertices(); i++) {
-            if (graph.getDegree(i) >= k - 1) {
+            if (degrees.get(i) >= k - 1) {
                 possibleVertices.add(i);
             }
         }
 
         // Ordena os vértices restantes por grau decrescente
-        possibleVertices.sort((a, b) -> Integer.compare(graph.getDegree(b), graph.getDegree(a)));
+        possibleVertices.sort((a, b) -> Integer.compare(degrees.get(b), degrees.get(a)));
 
         // Tenta formar um clique com os vértices de maior grau
         for (int i = 0; i <= possibleVertices.size() - k; i++) {

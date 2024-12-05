@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Graph {
@@ -70,5 +72,29 @@ public class Graph {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public static Graph createRandomGraphWithClique(int numberOfVertices, double edgeProbability, int k) {
+        // Create a random graph
+        Graph graph = createRandomGraph(numberOfVertices, edgeProbability);
+        Random random = new Random();
+
+        // Generate k unique random vertices
+        List<Integer> cliqueVertices = new ArrayList<>();
+        while (cliqueVertices.size() < k) {
+            int vertex = random.nextInt(numberOfVertices);
+            if (!cliqueVertices.contains(vertex)) {
+                cliqueVertices.add(vertex);
+            }
+        }
+
+        // Connect the k vertices to form a clique
+        for (int i = 0; i < k; i++) {
+            for (int j = i + 1; j < k; j++) {
+                graph.addEdge(cliqueVertices.get(i), cliqueVertices.get(j));
+            }
+        }
+
+        return graph;
     }
 }
